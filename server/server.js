@@ -5,9 +5,10 @@ const cors = require('cors');
 
 const app = express();
 const server = http.createServer(app);
+
 const io = new Server(server, {
   cors: {
-    origin: "https://chat-application-puvi.vercel.app/", 
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
@@ -23,7 +24,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('message', (data) => {
-    io.emit('message', data); 
+    io.emit('message', data);
   });
 
   socket.on('disconnect', () => {
