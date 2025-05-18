@@ -6,11 +6,17 @@ const cors = require('cors');
 const app = express();
 const server = http.createServer(app);
 
+// Replace with your deployed frontend URL (NO trailing slash!)
 const io = new Server(server, {
   cors: {
-    origin: "https://chat-app-39x6.vercel.app/",
+    origin: "https://chat-app-39x6.vercel.app",
     methods: ["GET", "POST"],
   },
+});
+
+// Dummy API to test backend
+app.get('/', (req, res) => {
+  res.send("Chat server is running!");
 });
 
 let onlineUsers = [];
@@ -34,6 +40,8 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(4000, () => {
-  console.log('Server is running on port 4000');
+// ✅ Use Render's dynamic port
+const PORT = process.env.PORT || 4000;
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
