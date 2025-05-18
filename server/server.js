@@ -4,11 +4,24 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 
 const app = express();
+
+// Allow CORS from your frontend deployed URL or localhost during dev
+app.use(cors({
+  origin: [
+    "http://localhost:3000",            // local dev frontend
+    "https://your-frontend.vercel.app" // replace with your Vercel frontend URL
+  ],
+  methods: ["GET", "POST"],
+}));
+
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "https://your-frontend.vercel.app"
+    ],
     methods: ["GET", "POST"],
   },
 });
@@ -34,6 +47,8 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(4000, () => {
-  console.log('Server is running on port 4000');
+const PORT = process.env.PORT || 4000;
+
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
