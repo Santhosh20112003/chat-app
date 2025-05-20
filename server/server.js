@@ -4,6 +4,20 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 
 const app = express();
+
+const allowedOrigins = ['http://localhost:3000', 'https://chat-app-39x6.vercel.app'];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      console.log('CORS allowed for origin:', origin);
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
 const server = http.createServer(app);
 
 // Replace with your deployed frontend URL (NO trailing slash!)
